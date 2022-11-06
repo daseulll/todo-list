@@ -2,6 +2,8 @@ package com.originality.todo.controller;
 
 import com.originality.todo.domain.Member;
 import com.originality.todo.dto.CreateMemberRequest;
+import com.originality.todo.dto.LoginRequest;
+import com.originality.todo.dto.LoginResponse;
 import com.originality.todo.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,5 +26,11 @@ public class MemberController {
         Member member = requestDto.toEntity();
         memberService.join(member);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> signin(@Valid @RequestBody LoginRequest requestDto) {
+        String token = memberService.login(requestDto.getEmail(), requestDto.getPassword());
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 }
