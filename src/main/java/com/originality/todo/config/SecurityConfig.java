@@ -19,7 +19,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .formLogin().disable()
                 .headers().frameOptions().disable();
-
     }
 
     @Bean
