@@ -22,7 +22,7 @@ public class TaskService {
         return taskRepository.findByMember(member, Sort.by(Sort.Order.desc("id")));
     }
 
-    public void add(Task task) {
+    public void createTask(Task task) {
         Member member = task.getMember();
         member.addTask(task);
         taskRepository.save(task);

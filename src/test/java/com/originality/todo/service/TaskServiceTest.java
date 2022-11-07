@@ -44,8 +44,8 @@ class TaskServiceTest {
                 .member(member)
                 .content("공부하기")
                 .build();
-        taskService.add(task1);
-        taskService.add(task2);
+        taskService.createTask(task1);
+        taskService.createTask(task2);
 
         Task latestTask = taskService.findLatest(member);
 
@@ -65,8 +65,8 @@ class TaskServiceTest {
                 .member(member)
                 .content("공부하기")
                 .build();
-        taskService.add(task1);
-        taskService.add(task2);
+        taskService.createTask(task1);
+        taskService.createTask(task2);
 
         List<Task> tasks = taskService.findAll(member);
 
@@ -77,12 +77,12 @@ class TaskServiceTest {
 
     @Test
     @DisplayName("할일 추가")
-    void add() {
+    void createTask() {
         Member member = createMember("violet@gmail.com", "password123!");
         Task task = Task.builder()
                 .member(member).build();
 
-        taskService.add(task);
+        taskService.createTask(task);
 
         Optional<Task> addedTask = taskRepository.findById(task.getId());
         Assertions.assertThat(addedTask.get()).isEqualTo(task);
