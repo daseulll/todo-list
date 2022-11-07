@@ -1,12 +1,15 @@
 package com.originality.todo.domain;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -29,8 +32,23 @@ public class Member {
     @NotEmpty
     private String password;
 
-    private String token;
+    @Builder.Default
+    private String token = UUID.randomUUID().toString();
 
     @Builder.Default
     private Boolean isDeleted = false;
+
+    @CreationTimestamp
+    private LocalDateTime createDateTime;
+
+    @UpdateTimestamp
+    private LocalDateTime updateDateTime;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member")
+    private List<Task> tasks = new ArrayList<>();
+
+    public void addTask(Task task) {
+        this.tasks.add(task);
+    }
 }
