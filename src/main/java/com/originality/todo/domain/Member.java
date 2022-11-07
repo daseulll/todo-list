@@ -30,4 +30,7 @@ public class Member {
     private String password;
 
     private String token;
+
+    @Builder.Default
+    private Boolean isDeleted = false;
 }

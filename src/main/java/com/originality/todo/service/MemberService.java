@@ -50,4 +50,11 @@ public class MemberService {
         member.setToken("");
         memberRepository.save(member);
     }
+
+    public void deleteAccount(Member member) {
+        this.logout(member);
+
+        member.setIsDeleted(true);
+        memberRepository.save(member);
+    }
 }

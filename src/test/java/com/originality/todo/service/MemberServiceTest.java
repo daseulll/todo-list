@@ -107,4 +107,15 @@ class MemberServiceTest {
 
         assertEquals(member.getToken(), "");
     }
+
+    @Test
+    @DisplayName("회원 탈퇴")
+    void deleteAccount() {
+        Member member = createMember("violet@gmail.com", "password123");
+
+        memberService.deleteAccount(member);
+
+        assertEquals(member.getIsDeleted(), true);
+        assertEquals(member.getToken(), "");
+    }
 }

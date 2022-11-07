@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,6 +42,12 @@ public class MemberController {
     public ResponseEntity<String> logout(@RequestUser Member member) {
         memberService.logout(member);
         return ResponseEntity.ok().body("로그아웃이 완료되었습니다.");
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<String> deleteAccount(@RequestUser Member member) {
+        memberService.deleteAccount(member);
+        return ResponseEntity.ok().body("탈퇴가 완료되었습니다.");
     }
 
 }
