@@ -10,6 +10,4 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByMember(Member member, Sort sort);
     Task findFirstByMember(Member member, Sort sort);
-    List<Task> findAllByMember(Member member);
-
 }

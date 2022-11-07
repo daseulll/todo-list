@@ -45,7 +45,7 @@ public class Member {
     private LocalDateTime updateDateTime;
 
     @Builder.Default
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Task> tasks = new ArrayList<>();
 
     public void addTask(Task task) {

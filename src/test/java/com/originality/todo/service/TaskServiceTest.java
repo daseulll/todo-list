@@ -5,17 +5,14 @@ import com.originality.todo.domain.Task;
 import com.originality.todo.repository.MemberRepository;
 import com.originality.todo.repository.TaskRepository;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -35,18 +32,47 @@ class TaskServiceTest {
     }
 
     @Test
-    @DisplayName("최신 1개 할일 조회")
-    void retrieve() {
+    @DisplayName("최신 할일 1개 조회")
+    void findLatest() {
         Member member = createMember("violet@gmail.com", "password123!");
-        Task task = Task.builder()
+        Task task1 = Task.builder()
                 .member(member)
                 .content("공부하기")
                 .build();
-        taskService.add(task);
 
-        taskService.retrieve(member);
+        Task task2 = Task.builder()
+                .member(member)
+                .content("공부하기")
+                .build();
+        taskService.add(task1);
+        taskService.add(task2);
 
-//        Assertions.assertThat(findTask.get()).isEqualTo(task);
+        Task latestTask = taskService.findLatest(member);
+
+        Assertions.assertThat(latestTask).isEqualTo(task2);
+    }
+
+    @Test
+    @DisplayName("내 모든 할일 조회")
+    void findAllTasks() {
+        Member member = createMember("violet@gmail.com", "password123!");
+        Task task1 = Task.builder()
+                .member(member)
+                .content("공부하기")
+                .build();
+
+        Task task2 = Task.builder()
+                .member(member)
+                .content("공부하기")
+                .build();
+        taskService.add(task1);
+        taskService.add(task2);
+
+        List<Task> tasks = taskService.findAll(member);
+
+        Assertions.assertThat(tasks.size()).isEqualTo(2);
+        Assertions.assertThat(tasks.get(0)).isEqualTo(task2);
+        Assertions.assertThat(tasks.get(1)).isEqualTo(task1);
     }
 
     @Test

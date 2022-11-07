@@ -8,16 +8,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class TaskService {
     private final TaskRepository taskRepository;
 
-    public Task retrieve(Member member) {
-        Task task = taskRepository.findFirstByMember(member, Sort.by(Sort.Order.desc("id")));
-        return task;
+    public Task findLatest(Member member) {
+        return taskRepository.findFirstByMember(member, Sort.by(Sort.Order.desc("id")));
+    }
+
+    public List<Task> findAll(Member member) {
+        return taskRepository.findByMember(member, Sort.by(Sort.Order.desc("id")));
     }
 
     public void add(Task task) {
