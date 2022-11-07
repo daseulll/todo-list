@@ -4,16 +4,14 @@ import com.originality.todo.domain.Member;
 import com.originality.todo.domain.Task;
 import com.originality.todo.dto.CreateTaskRequest;
 import com.originality.todo.dto.TaskDto;
+import com.originality.todo.dto.UpdateTaskStatusRequest;
 import com.originality.todo.global.annotation.RequestUser;
 import com.originality.todo.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -49,5 +47,11 @@ public class TaskController {
         Task task = createTaskDto.toEntity(member);
         taskService.createTask(task);
         return new ResponseEntity(new TaskDto(task), HttpStatus.CREATED);
+    }
+
+    @PatchMapping("status")
+    public ResponseEntity<String> updateTaskStatus(@RequestUser Member member, @Valid @RequestBody UpdateTaskStatusRequest updateTaskStatusRequest) {
+        taskService.updateTaskStatus(member, updateTaskStatusRequest.getTaskId(),  updateTaskStatusRequest.getStatus());
+        return ResponseEntity.ok("할일 상태가 업데이트되었습니다.");
     }
 }
